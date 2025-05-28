@@ -3,5 +3,18 @@
     {
       "mode": "auto"
     }
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.formatOnSave": true,
+  "[javascript]": {
+    "editor.formatOnSave": true
+  },
+  "[typescript]": {
+    "editor.formatOnSave": true
+  },
+  "[json]": {
+    "editor.formatOnSave": true
+  },
+  "files.eol": "\n",
+  "postman.settings.dotenv-detection-notification-visibility": false
 }
