@@ -1,42 +1,19 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Patch,
-  Post,
-} from '@nestjs/common';
+import { Body, Controller, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateAuthDto } from './dto/sign-up.dto.ts';
-import { UpdateAuthDto } from './dto/update-auth.dto';
+
+import { ApiOperation } from '@nestjs/swagger';
+import { SignUpRequestDto, SignUpResponseDto } from './dto/sign-up.dto.ts';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post()
-  create(@Body() createAuthDto: CreateAuthDto) {
-    return this.authService.create(createAuthDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.authService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.authService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAuthDto: UpdateAuthDto) {
-    return this.authService.update(+id, updateAuthDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.authService.remove(+id);
+  @ApiOperation({
+    summary: 'Registrar Conta',
+    description: 'Cria uma nova conta de usuário.',
+  })
+  @Post('signup')
+  create(@Body() request: SignUpRequestDto): Promise<SignUpResponseDto> {
+    return this.authService.createAccount(request);
   }
 }

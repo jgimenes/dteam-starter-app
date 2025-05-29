@@ -18,6 +18,7 @@ export class AuthBaseDto {
   @IsString({ message: 'Id deve ser uma string' })
   @Length(26, 26, { message: 'Id deve ter exatamente 26 caracteres.' })
   id: string;
+
   @ApiProperty({
     title: 'Email',
     description: 'Email da Conta de Usuário',
@@ -28,6 +29,7 @@ export class AuthBaseDto {
   @IsString({ message: 'Email deve ser uma string' })
   @IsEmail({}, { message: 'Email deve ser um endereço de email válido.' })
   email: string;
+
   @ApiProperty({
     title: 'Número do Telefone Móvel',
     description: 'Número do Telefone Móvel do usuário da Conta.',
@@ -40,6 +42,7 @@ export class AuthBaseDto {
     message: 'Número do Telefone Móvel deve ser um número de telefone válido.',
   })
   phoneNumber?: string;
+
   @ApiProperty({
     title: 'OTP',
     description:
@@ -51,38 +54,56 @@ export class AuthBaseDto {
   @IsString({ message: 'OTP deve ser uma string' })
   @Length(6, 6, { message: 'OTP deve ter exatamente 6 caracteres.' })
   otp?: string;
+
   @ApiProperty({
     title: 'OTP Tempo de Expiração',
     description: 'Timestamp de expiração do OTP.',
     example: 1712345678901,
+    type: String,
+    required: false,
+  })
+  @IsString({
+    message: 'otpExpiresAt deve ser uma string representando um timestamp.',
+  })
+  otpExpiresAt?: bigint;
+
+  @ApiProperty({
+    title: 'Data e hora da verificação do email',
+    description: 'Data e hora em que o email foi verificado.',
+    example: Date.now(),
     type: Date,
     required: false,
   })
-  otpExpiresAt?: bigint;
+  @IsDate({ message: 'isVerified deve ser uma data e hora válida.' })
+  isVerified?: Date;
+
   @ApiProperty({
     title: 'Data de Criação da Conta',
-    description: 'Timestamp de criação da conta do usuário.',
+    description: 'Date e hora de criação da conta do usuário.',
     example: Date.now(),
     type: Date,
     required: true,
   })
-  @IsDate({ message: 'createdAt deve ser uma timestamp válido.' })
+  @IsDate({ message: 'createdAt deve ser uma data e hora válida.' })
   createdAt: bigint;
+
   @ApiProperty({
     title: 'Data de Atualização da Conta',
-    description: 'Timestamp da última atualização da conta do usuário.',
+    description: 'Data e hora da última atualização da conta do usuário.',
     example: Date.now(),
     type: Date,
     required: true,
   })
-  @IsDate({ message: 'updatedAt deve ser uma timestamp válido.' })
-  updatedAt: bigint;
+  @IsDate({ message: 'updatedAt deve ser uma data e hora válida.' })
+  updatedAt: Date;
+
   @ApiProperty({
     title: 'Data de Exclusão da Conta',
-    description: 'Timestamp de exclusão da conta do usuário, se aplicável.',
+    description: 'Data e hora de exclusão da conta do usuário, se aplicável.',
     example: null,
     type: Date,
     required: false,
   })
-  deleteAt?: bigint;
+  @IsDate({ message: 'deleteAt deve ser uma data e hora válida.' })
+  deleteAt?: Date;
 }
