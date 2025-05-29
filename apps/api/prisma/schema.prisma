@@ -13,11 +13,23 @@ model Account {
   email        String    @unique
   phoneNumber  String?
   otp          String?
-  otpExpiresAt BigInt?
+  otpExpiresAt DateTime?
   isVerified   DateTime?
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
   deleteAt     DateTime?
 
   @@map("accounts")
+}
+
+model EmailTemplate {
+  id          String    @id @default(ulid())
+  name        String    @unique
+  description String?
+  body        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deleteAt    DateTime?
+
+  @@map("email_templates")
 }

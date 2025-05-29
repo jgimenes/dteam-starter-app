@@ -59,22 +59,22 @@ export class AuthBaseDto {
     title: 'OTP Tempo de Expiração',
     description: 'Timestamp de expiração do OTP.',
     example: 1712345678901,
-    type: String,
+    type: Date,
     required: false,
   })
   @IsString({
     message: 'otpExpiresAt deve ser uma string representando um timestamp.',
   })
-  otpExpiresAt?: bigint;
+  otpExpiresAt?: Date;
 
   @ApiProperty({
     title: 'Data e hora da verificação do email',
-    description: 'Data e hora em que o email foi verificado.',
+    description: 'Timestamp verificação da conta.',
     example: Date.now(),
     type: Date,
     required: false,
   })
-  @IsDate({ message: 'isVerified deve ser uma data e hora válida.' })
+  @IsDate({ message: 'isVerified ser um timestamp válido.' })
   isVerified?: Date;
 
   @ApiProperty({
@@ -84,7 +84,7 @@ export class AuthBaseDto {
     type: Date,
     required: true,
   })
-  @IsDate({ message: 'createdAt deve ser uma data e hora válida.' })
+  @IsDate({ message: 'createdAt deve ser um timestamp válido.' })
   createdAt: bigint;
 
   @ApiProperty({
@@ -94,7 +94,7 @@ export class AuthBaseDto {
     type: Date,
     required: true,
   })
-  @IsDate({ message: 'updatedAt deve ser uma data e hora válida.' })
+  @IsDate({ message: 'updatedAt deve ser um timestamp válido.' })
   updatedAt: Date;
 
   @ApiProperty({
@@ -104,6 +104,6 @@ export class AuthBaseDto {
     type: Date,
     required: false,
   })
-  @IsDate({ message: 'deleteAt deve ser uma data e hora válida.' })
+  @IsDate({ message: 'deleteAt deve ser um timestamp válido.' })
   deleteAt?: Date;
 }
