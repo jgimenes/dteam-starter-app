@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Expose } from 'class-transformer';
 import {
   IsDate,
   IsEmail,
@@ -15,6 +16,7 @@ export class AuthBaseDto {
     type: String,
     required: true,
   })
+  @Expose()
   @IsString({ message: 'Id deve ser uma string' })
   @Length(26, 26, { message: 'Id deve ter exatamente 26 caracteres.' })
   id: string;
@@ -26,6 +28,7 @@ export class AuthBaseDto {
     type: String,
     required: true,
   })
+  @Expose()
   @IsString({ message: 'Email deve ser uma string' })
   @IsEmail({}, { message: 'Email deve ser um endereço de email válido.' })
   email: string;
@@ -37,6 +40,7 @@ export class AuthBaseDto {
     type: String,
     required: false,
   })
+  @Expose()
   @IsString({ message: 'Número do Telefone Móvel deve ser uma string' })
   @IsMobilePhone(undefined, undefined, {
     message: 'Número do Telefone Móvel deve ser um número de telefone válido.',
@@ -51,6 +55,7 @@ export class AuthBaseDto {
     type: String,
     required: false,
   })
+  @Expose()
   @IsString({ message: 'OTP deve ser uma string' })
   @Length(6, 6, { message: 'OTP deve ter exatamente 6 caracteres.' })
   otp?: string;
@@ -62,6 +67,7 @@ export class AuthBaseDto {
     type: Date,
     required: false,
   })
+  @Expose()
   @IsString({
     message: 'otpExpiresAt deve ser uma string representando um timestamp.',
   })
@@ -74,6 +80,7 @@ export class AuthBaseDto {
     type: Date,
     required: false,
   })
+  @Expose()
   @IsDate({ message: 'isVerified ser um timestamp válido.' })
   isVerified?: Date;
 
@@ -84,6 +91,7 @@ export class AuthBaseDto {
     type: Date,
     required: true,
   })
+  @Expose()
   @IsDate({ message: 'createdAt deve ser um timestamp válido.' })
   createdAt: bigint;
 
@@ -94,6 +102,7 @@ export class AuthBaseDto {
     type: Date,
     required: true,
   })
+  @Expose()
   @IsDate({ message: 'updatedAt deve ser um timestamp válido.' })
   updatedAt: Date;
 
@@ -104,6 +113,7 @@ export class AuthBaseDto {
     type: Date,
     required: false,
   })
+  @Expose()
   @IsDate({ message: 'deleteAt deve ser um timestamp válido.' })
   deleteAt?: Date;
 }

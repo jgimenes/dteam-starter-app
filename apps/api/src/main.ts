@@ -1,3 +1,4 @@
+import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import helmet from 'helmet';
 import { AppModule } from './app.module';
@@ -23,6 +24,15 @@ async function bootstrap() {
   const globalPrefix = prefix + versionPath || 'api';
 
   app.setGlobalPrefix(globalPrefix);
+
+  app.useGlobalPipes(
+    new ValidationPipe({ whitelist: true }),
+
+    new ValidationPipe({
+      transform: true,
+      transformOptions: { groups: ['transform'] },
+    })
+  );
 
   //* Set OpenAPI documentation options
 

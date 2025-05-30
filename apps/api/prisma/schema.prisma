@@ -22,7 +22,7 @@ model Account {
   @@map("accounts")
 }
 
-model EmailTemplate {
+model Template {
   id          String    @id @default(ulid())
   name        String    @unique
   description String?
@@ -31,5 +31,5 @@ model EmailTemplate {
   updatedAt   DateTime  @updatedAt
   deleteAt    DateTime?
 
-  @@map("email_templates")
+  @@map("templates")
 }
