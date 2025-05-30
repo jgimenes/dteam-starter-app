@@ -8,6 +8,7 @@ onlyBuiltDependencies:
   - '@scarf/scarf'
   - '@swc/core'
   - '@tailwindcss/oxide'
+  - bcrypt
   - core-js-pure
   - prisma
   - sharp

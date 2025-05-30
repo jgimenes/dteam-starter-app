@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   ConflictException,
   Injectable,
   InternalServerErrorException,
@@ -10,6 +11,7 @@ import { OtpLib } from 'src/lib/otp.lib';
 import { EmailService } from 'src/services/email/email.service';
 import { Account } from '../../../generated/prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
+import { SignInRequestDto, SignInResponseDto } from './dto/sign-in.dto';
 import { SignUpRequestDto, SignUpResponseDto } from './dto/sign-up.dto.ts';
 
 @Injectable()
@@ -69,6 +71,41 @@ export class AuthService {
     });
   }
 
+  //* Sign in to an account
+
+  async signIn(request: SignInRequestDto): Promise<SignInResponseDto> {
+    const { id, email, otp } = request;
+
+    console.log(id);
+    console.log(otp);
+
+    // Find the account by email
+    const account = await this.findAccountByEmail(email);
+
+    if (!account) {
+      throw new BadRequestException(`Conta ${email} não cadastrada.`);
+    }
+
+    // Verify the OTP
+
+    // Generate access and refresh tokens (not implemented here)
+    const accessToken = 'generated-access-token'; // Placeholder
+    const refreshToken = 'generated-refresh-token'; // Placeholder
+
+    return plainToInstance(
+      SignInResponseDto,
+      {
+        id: account.id,
+        email: account.email,
+        accessToken,
+        refreshToken,
+      },
+      {
+        excludeExtraneousValues: true,
+      }
+    );
+  }
+
   //* Find Account by email
 
   async findAccountByEmail(email: string): Promise<Account | null> {
@@ -77,4 +114,6 @@ export class AuthService {
     });
     return account;
   }
+
+  //* Get OTP from account
 }

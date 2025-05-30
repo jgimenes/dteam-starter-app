@@ -6,4 +6,8 @@ export class EncryptLib {
     const hashedOtp = bcrypt.hashSync(otp, salt);
     return hashedOtp;
   }
+
+  static compareHash(otp: string, hashedOtp: string): boolean {
+    return bcrypt.compareSync(otp, hashedOtp);
+  }
 }

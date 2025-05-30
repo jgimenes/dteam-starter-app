@@ -4,32 +4,53 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-model Account {
-  id           String    @id @default(ulid())
-  email        String    @unique
-  phoneNumber  String?
-  otp          String?
-  otpExpiresAt DateTime?
-  isVerified   DateTime?
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  deleteAt     DateTime?
+model Tenant {
+  id        String   @id @default(ulid()) @map("_id")
+  name      String
+  document  String   @unique // CPF ou CNPJ
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@map("accounts")
+  accounts Account[]
 }
 
-model Template {
-  id          String    @id @default(ulid())
-  name        String    @unique
-  description String?
-  body        String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  deleteAt    DateTime?
+model User {
+  id        String   @id @default(ulid()) @map("_id")
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  @@map("templates")
+  accounts Account[]
+}
+
+model Account {
+  id         String    @id @default(ulid()) @map("_id")
+  email      String?   @unique
+  phone      String?   @unique
+  userId     String?
+  tenantId   String?
+  role       String    @default("user")
+  verifiedAt DateTime?
+  createdAt  DateTime  @default(now())
+
+  user   User?   @relation(fields: [userId], references: [id])
+  tenant Tenant? @relation(fields: [tenantId], references: [id])
+  // @@unique([userId, tenantId]) // um user pode ter uma conta por tenant
+
+  @@index([userId, tenantId])
+}
+
+model VerificationToken {
+  id         String   @id @default(ulid()) @map("_id")
+  identifier String // e-mail ou telefone
+  token      String   @unique
+  type       String // 'magic_link', 'otp'
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([expiresAt], map: "token_expiry")
 }

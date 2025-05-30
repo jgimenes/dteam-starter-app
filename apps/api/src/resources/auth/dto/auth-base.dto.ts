@@ -11,7 +11,7 @@ import {
 export class AuthBaseDto {
   @ApiProperty({
     title: 'Id',
-    description: 'Id Único de Identificação da Conta de Usuário.',
+    description: 'Id único de identificação da conta.',
     example: '01JWC6CS8ZZ47NK8MX2C2WPS6D',
     type: String,
     required: true,
@@ -22,10 +22,10 @@ export class AuthBaseDto {
   id: string;
 
   @ApiProperty({
-    title: 'Email',
     description: 'Email da Conta de Usuário',
     example: 'nomeusuario@email.com',
-    type: String,
+    type: 'string',
+    format: 'email',
     required: true,
   })
   @Expose()
@@ -34,7 +34,6 @@ export class AuthBaseDto {
   email: string;
 
   @ApiProperty({
-    title: 'Número do Telefone Móvel',
     description: 'Número do Telefone Móvel do usuário da Conta.',
     example: '+5511999999999',
     type: String,
@@ -48,7 +47,6 @@ export class AuthBaseDto {
   phoneNumber?: string;
 
   @ApiProperty({
-    title: 'OTP',
     description:
       'Código de Verificação de Um Tempo Só (One-Time Password) para Autenticação.',
     example: '249601',
@@ -61,7 +59,6 @@ export class AuthBaseDto {
   otp?: string;
 
   @ApiProperty({
-    title: 'OTP Tempo de Expiração',
     description: 'Timestamp de expiração do OTP.',
     example: 1712345678901,
     type: Date,
@@ -74,7 +71,6 @@ export class AuthBaseDto {
   otpExpiresAt?: Date;
 
   @ApiProperty({
-    title: 'Data e hora da verificação do email',
     description: 'Timestamp verificação da conta.',
     example: Date.now(),
     type: Date,
@@ -85,7 +81,6 @@ export class AuthBaseDto {
   isVerified?: Date;
 
   @ApiProperty({
-    title: 'Data de Criação da Conta',
     description: 'Date e hora de criação da conta do usuário.',
     example: Date.now(),
     type: Date,
@@ -96,7 +91,6 @@ export class AuthBaseDto {
   createdAt: bigint;
 
   @ApiProperty({
-    title: 'Data de Atualização da Conta',
     description: 'Data e hora da última atualização da conta do usuário.',
     example: Date.now(),
     type: Date,
@@ -107,7 +101,6 @@ export class AuthBaseDto {
   updatedAt: Date;
 
   @ApiProperty({
-    title: 'Data de Exclusão da Conta',
     description: 'Data e hora de exclusão da conta do usuário, se aplicável.',
     example: null,
     type: Date,
