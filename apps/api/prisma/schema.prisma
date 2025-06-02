@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  output   = "../src/prisma/client"
 }
 
 datasource db {
@@ -9,39 +9,36 @@ datasource db {
 }
 
 model Tenant {
-  id        String   @id @default(ulid()) @map("_id")
-  name      String
-  document  String   @unique // CPF ou CNPJ
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                  String    @id @default(ulid()) @map("_id")
+  name                String    @unique
+  domain              String    @unique
+  legalIdentification String    @unique
+  legalName           String
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  deletedAt           DateTime?
 
   accounts Account[]
-}
 
-model User {
-  id        String   @id @default(ulid()) @map("_id")
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  accounts Account[]
+  @@map("tenants")
 }
 
 model Account {
   id         String    @id @default(ulid()) @map("_id")
+  name       String?
   email      String?   @unique
   phone      String?   @unique
-  userId     String?
   tenantId   String?
   role       String    @default("user")
   verifiedAt DateTime?
   createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+  deletedAt  DateTime?
 
-  user   User?   @relation(fields: [userId], references: [id])
   tenant Tenant? @relation(fields: [tenantId], references: [id])
-  // @@unique([userId, tenantId]) // um user pode ter uma conta por tenant
 
-  @@index([userId, tenantId])
+  @@index([tenantId])
+  @@map("accounts")
 }
 
 model VerificationToken {
@@ -53,4 +50,17 @@ model VerificationToken {
   createdAt  DateTime @default(now())
 
   @@index([expiresAt], map: "token_expiry")
+  @@map("verification_tokens")
+}
+
+model Template {
+  id          String   @id @default(ulid()) @map("_id")
+  name        String
+  description String?
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([name])
+  @@map("templates")
 }

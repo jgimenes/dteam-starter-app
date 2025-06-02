@@ -2,28 +2,24 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
-  InternalServerErrorException,
 } from '@nestjs/common';
 import { plainToInstance } from 'class-transformer';
-import { EncryptLib } from 'src/lib/encrypt.lib';
-import { OtpLib } from 'src/lib/otp.lib';
 
-import { EmailService } from 'src/services/email/email.service';
-import { Account } from '../../../generated/prisma/client';
+import { Account } from '../../prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 import { SignInRequestDto, SignInResponseDto } from './dto/sign-in.dto';
-import { SignUpRequestDto, SignUpResponseDto } from './dto/sign-up.dto.ts';
+import { SignUpRequestDto } from './dto/sign-up.dto.ts';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prisma: PrismaService,
-    private readonly sendEmail: EmailService
+    private prisma: PrismaService
+    //    private readonly sendEmail: EmailService
   ) {}
 
   //* Create a new account
 
-  async createAccount(request: SignUpRequestDto): Promise<SignUpResponseDto> {
+  async createAccount(request: SignUpRequestDto): Promise<void> {
     const { email } = request;
 
     // Check if the account already exists
@@ -35,16 +31,14 @@ export class AuthService {
 
     // Generate OTP (One Time Password).
 
-    const stringOTP = OtpLib.generateOtp();
-    const hashedOTP = EncryptLib.getHash(stringOTP);
-    const otpExpiresAt = new Date(Date.now() + 300);
+    /*const stringOTP = OtpLib.generateOtp();
+    //const hashedOTP = EncryptLib.getHash(stringOTP);
+    //const otpExpiresAt = new Date(Date.now() + 300);
 
     // Create a new account
     const account = await this.prisma.account.create({
       data: {
         email,
-        otp: hashedOTP,
-        otpExpiresAt,
       },
     });
 
@@ -62,13 +56,12 @@ export class AuthService {
 
     const responseMessage: SignUpResponseDto = {
       id: account.id,
-      email: account.email,
-      message: emailResponse.message,
     };
 
     return plainToInstance(SignUpResponseDto, responseMessage, {
       excludeExtraneousValues: true,
     });
+    */
   }
 
   //* Sign in to an account

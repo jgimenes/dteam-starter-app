@@ -1,20 +1,11 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Controller } from '@nestjs/common';
 import { AuthService } from './auth.service';
-
-import {
-  ApiBadRequestResponse,
-  ApiBody,
-  ApiConflictResponse,
-  ApiCreatedResponse,
-  ApiOperation,
-} from '@nestjs/swagger';
-import { SignUpRequestDto, SignUpResponseDto } from './dto/sign-up.dto.ts';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('signup')
+  /*@Post('signup')
   @ApiOperation({
     summary: 'Registrar Conta',
     description: 'Cria uma nova conta de usuário.',
@@ -31,7 +22,7 @@ export class AuthController {
   @ApiConflictResponse({
     description: 'E-mail já registrado.',
   })
-  create(@Body() request: SignUpRequestDto): Promise<SignUpResponseDto> {
+  create(@Body() request: SignUpRequestDto): Promise<void> {
     return this.authService.createAccount(request);
-  }
+  }*/
 }
